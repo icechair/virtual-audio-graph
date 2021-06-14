@@ -1,9 +1,9 @@
-import VirtualAudioGraph from "./VirtualAudioGraph";
+import VirtualAudioGraph from "./VirtualAudioGraph.ts";
 
-export * from "./nodeFactories";
+export * from "./nodeFactories.ts";
 
-export { default as createNode } from "./createNode";
-export { default as createWorkletNode } from "./createWorkletNode";
+export { default as createNode } from "./createNode.ts";
+export { default as createWorkletNode } from "./createWorkletNode.ts";
 
 export default (config?: {
   audioContext?: AudioContext;

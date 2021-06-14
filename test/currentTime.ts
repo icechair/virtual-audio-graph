@@ -1,10 +1,10 @@
-import createVirtualAudioGraph, * as V from "../src";
+import createVirtualAudioGraph, * as V from "../src/index.ts";
 
 describe("virtualAudioGraph instance", () => {
   test("currentTime", () => {
     const audioContext = new AudioContext();
     expect(createVirtualAudioGraph({ audioContext }).currentTime).toBe(
-      audioContext.currentTime
+      audioContext.currentTime,
     );
   });
 

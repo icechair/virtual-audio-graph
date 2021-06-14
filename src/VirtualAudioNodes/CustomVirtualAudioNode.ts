@@ -1,12 +1,12 @@
-import connectAudioNodes from "../connectAudioNodes";
+import connectAudioNodes from "../connectAudioNodes.ts";
 import {
   CustomVirtualAudioNodeFactory,
   IVirtualAudioNodeGraph,
   IVirtualAudioNodeParams,
   Output,
   VirtualAudioNode,
-} from "../types";
-import { mapObj, values } from "../utils";
+} from "../types.ts";
+import { mapObj, values } from "../utils.ts";
 
 export default class CustomVirtualAudioNode {
   public readonly audioNode: undefined = undefined;
@@ -17,7 +17,7 @@ export default class CustomVirtualAudioNode {
   constructor(
     public readonly node: CustomVirtualAudioNodeFactory,
     public output?: Output,
-    params?: IVirtualAudioNodeParams
+    params?: IVirtualAudioNodeParams,
   ) {
     this.params = params || {};
   }
@@ -60,7 +60,7 @@ export default class CustomVirtualAudioNode {
     this.virtualNodes = mapObj(
       (virtualAudioNodeParam: VirtualAudioNode) =>
         virtualAudioNodeParam.initialize(audioContext),
-      this.node(this.params)
+      this.node(this.params),
     );
 
     connectAudioNodes(this.virtualNodes, () => {});

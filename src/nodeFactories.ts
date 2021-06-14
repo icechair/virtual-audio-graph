@@ -1,8 +1,7 @@
-import { Output } from "./types";
-import StandardVirtualAudioNode from "./VirtualAudioNodes/StandardVirtualAudioNode";
+import { Output } from "./types.ts";
+import StandardVirtualAudioNode from "./VirtualAudioNodes/StandardVirtualAudioNode.ts";
 
-const createNodeConstructor =
-  (nodeName: string) =>
+const createNodeConstructor = (nodeName: string) =>
   (output?: Output, ...rest: any[]): StandardVirtualAudioNode => {
     if (nodeName === "mediaStreamDestination") {
       return new StandardVirtualAudioNode(nodeName);
@@ -24,7 +23,7 @@ export const dynamicsCompressor = createNodeConstructor("dynamicsCompressor");
 export const gain = createNodeConstructor("gain");
 export const mediaElementSource = createNodeConstructor("mediaElementSource");
 export const mediaStreamDestination = createNodeConstructor(
-  "mediaStreamDestination"
+  "mediaStreamDestination",
 );
 export const mediaStreamSource = createNodeConstructor("mediaStreamSource");
 export const oscillator = createNodeConstructor("oscillator");

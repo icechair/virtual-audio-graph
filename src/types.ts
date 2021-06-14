@@ -1,6 +1,6 @@
-import AudioWorkletVirtualAudioNode from "./VirtualAudioNodes/AudioWorkletVirtualAudioNode";
-import CustomVirtualAudioNode from "./VirtualAudioNodes/CustomVirtualAudioNode";
-import StandardVirtualAudioNode from "./VirtualAudioNodes/StandardVirtualAudioNode";
+import AudioWorkletVirtualAudioNode from "./VirtualAudioNodes/AudioWorkletVirtualAudioNode.ts";
+import CustomVirtualAudioNode from "./VirtualAudioNodes/CustomVirtualAudioNode.ts";
+import StandardVirtualAudioNode from "./VirtualAudioNodes/StandardVirtualAudioNode.ts";
 
 export interface IAudioNodePropertyLookup {
   [_: string]: any;
@@ -11,7 +11,7 @@ export interface IAudioNodeFactoryParam {
 }
 
 export type CustomVirtualAudioNodeFactory<P = IVirtualAudioNodeParams> = (
-  _: P
+  _: P,
 ) => IVirtualAudioNodeGraph;
 
 interface IOutputObject {

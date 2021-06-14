@@ -1,4 +1,4 @@
-import { equals } from "../src/utils";
+import { equals } from "../src/utils.ts";
 
 describe("utils", () => {
   describe("equals", () => {

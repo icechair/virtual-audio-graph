@@ -1,13 +1,13 @@
-import connectAudioNodes from "./connectAudioNodes";
-import { IVirtualAudioNodeGraph, VirtualAudioNode } from "./types";
-import { entries, equals, values } from "./utils";
+import connectAudioNodes from "./connectAudioNodes.ts";
+import { IVirtualAudioNodeGraph, VirtualAudioNode } from "./types.ts";
+import { entries, equals, values } from "./utils.ts";
 
 export default class VirtualAudioGraph {
   private virtualNodes: IVirtualAudioNodeGraph = {};
 
   constructor(
     public readonly audioContext: AudioContext,
-    private readonly output: AudioDestinationNode
+    private readonly output: AudioDestinationNode,
   ) {}
 
   public getAudioNodeById(id: number | string): AudioNode | void {
@@ -33,7 +33,7 @@ export default class VirtualAudioGraph {
 
       if (virtualAudioNode == null) {
         this.virtualNodes[key] = newVirtualAudioNode.initialize(
-          this.audioContext
+          this.audioContext,
         );
         continue;
       }
@@ -48,7 +48,7 @@ export default class VirtualAudioGraph {
         virtualAudioNode.disconnectAndDestroy();
         this.disconnectParents(virtualAudioNode);
         this.virtualNodes[key] = newVirtualAudioNode.initialize(
-          this.audioContext
+          this.audioContext,
         );
         continue;
       }
@@ -62,8 +62,9 @@ export default class VirtualAudioGraph {
       virtualAudioNode.update(newVirtualAudioNode.params);
     }
 
-    connectAudioNodes(this.virtualNodes, (vNode: VirtualAudioNode) =>
-      vNode.connect(this.output)
+    connectAudioNodes(
+      this.virtualNodes,
+      (vNode: VirtualAudioNode) => vNode.connect(this.output),
     );
 
     return this;

@@ -1,4 +1,4 @@
-import createVirtualAudioGraph, * as V from "../../src";
+import createVirtualAudioGraph, * as V from "../../src/index.ts";
 
 const audioContext = new AudioContext();
 const virtualAudioGraph = createVirtualAudioGraph({ audioContext });
@@ -9,15 +9,13 @@ describe("error throwing with update", () => {
   });
 
   test("throws an error when virtual node name property is not recognised", () => {
-    expect(() =>
-      virtualAudioGraph.update({ 0: (V as any).foobar("output") })
-    ).toThrow();
+    expect(() => virtualAudioGraph.update({ 0: (V as any).foobar("output") }))
+      .toThrow();
   });
 
   test('throws an error when id is "output"', () => {
-    expect(() =>
-      virtualAudioGraph.update({ output: V.gain("output") })
-    ).toThrow();
+    expect(() => virtualAudioGraph.update({ output: V.gain("output") }))
+      .toThrow();
   });
 
   test('throws an error when id is "output"', () => {
@@ -56,7 +54,7 @@ describe("error throwing with update", () => {
         1: V.oscillator("output"),
         2: (V.channelSplitter as any)(
           { inputs: [1, 0], key: 0, outputs: [0, 1, 2] },
-          params
+          params,
         ),
       })
     ).toThrow();

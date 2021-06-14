@@ -1,6 +1,6 @@
-import { IVirtualAudioNodeParams, Output, VirtualAudioNode } from "../types";
-import { equals, values } from "../utils";
-import CustomVirtualAudioNode from "./CustomVirtualAudioNode";
+import { IVirtualAudioNodeParams, Output, VirtualAudioNode } from "../types.ts";
+import { equals, values } from "../utils.ts";
+import CustomVirtualAudioNode from "./CustomVirtualAudioNode.ts";
 
 interface IWindow {
   AudioWorkletNode?: any;
@@ -15,7 +15,7 @@ export default class AudioWorkletVirtualAudioNode {
     public readonly node: string,
     public output?: Output,
     public params?: IVirtualAudioNodeParams,
-    public readonly input?: string
+    public readonly input?: string,
   ) {}
 
   public connect(...connectArgs: any[]): void {
@@ -34,10 +34,11 @@ export default class AudioWorkletVirtualAudioNode {
     if (node) {
       if (node instanceof CustomVirtualAudioNode) {
         for (const childNode of values(node.virtualNodes)) {
-          if (!this.connections.some((x) => x === childNode.audioNode))
+          if (!this.connections.some((x) => x === childNode.audioNode)) {
             continue;
+          }
           this.connections = this.connections.filter(
-            (x) => x !== childNode.audioNode
+            (x) => x !== childNode.audioNode,
           );
         }
       } else {
@@ -59,7 +60,7 @@ export default class AudioWorkletVirtualAudioNode {
     const params = this.params || {};
     this.audioNode = new (window as IWindow).AudioWorkletNode(
       audioContext,
-      this.node
+      this.node,
     );
 
     this.params = undefined;

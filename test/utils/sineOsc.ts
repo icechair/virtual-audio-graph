@@ -1,4 +1,4 @@
-import * as V from "../../src";
+import * as V from "../../src/index.ts";
 
 export default V.createNode((params) => {
   const frequency = params.frequency;

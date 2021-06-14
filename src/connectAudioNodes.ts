@@ -2,15 +2,15 @@ import {
   IAudioNodePropertyLookup,
   IVirtualAudioNodeGraph,
   VirtualAudioNode,
-} from "./types";
-import { entries, values } from "./utils";
-import AudioWorkletVirtualAudioNode from "./VirtualAudioNodes/AudioWorkletVirtualAudioNode";
-import CustomVirtualAudioNode from "./VirtualAudioNodes/CustomVirtualAudioNode";
-import StandardVirtualAudioNode from "./VirtualAudioNodes/StandardVirtualAudioNode";
+} from "./types.ts";
+import { entries, values } from "./utils.ts";
+import AudioWorkletVirtualAudioNode from "./VirtualAudioNodes/AudioWorkletVirtualAudioNode.ts";
+import CustomVirtualAudioNode from "./VirtualAudioNodes/CustomVirtualAudioNode.ts";
+import StandardVirtualAudioNode from "./VirtualAudioNodes/StandardVirtualAudioNode.ts";
 
 export default (
   virtualGraph: IVirtualAudioNodeGraph,
-  handleConnectionToOutput: (_: VirtualAudioNode) => void
+  handleConnectionToOutput: (_: VirtualAudioNode) => void,
 ) => {
   for (const [id, virtualNode] of entries(virtualGraph)) {
     if (virtualNode.connected || virtualNode.output == null) continue;
@@ -30,20 +30,22 @@ export default (
         if (inputs) {
           if (inputs.length !== outputs.length) {
             throw new Error(
-              `id: ${id} - outputs and inputs arrays are not the same length`
+              `id: ${id} - outputs and inputs arrays are not the same length`,
             );
           }
           for (let i = 0; i++; i < inputs.length) {
             virtualNode.connect(
               virtualGraph[key].audioNode,
               outputs[i],
-              inputs[i]
+              inputs[i],
             );
           }
           continue;
         }
         virtualNode.connect(
-          (virtualGraph[key].audioNode as IAudioNodePropertyLookup)[destination]
+          (virtualGraph[key].audioNode as IAudioNodePropertyLookup)[
+            destination
+          ],
         );
         continue;
       }

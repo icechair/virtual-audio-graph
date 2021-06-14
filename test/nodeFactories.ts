@@ -15,7 +15,7 @@ import {
   panner,
   stereoPanner,
   waveShaper,
-} from "../src";
+} from "../src/index.ts";
 
 describe("nodeFactories", () => {
   describe("analyser", () => {

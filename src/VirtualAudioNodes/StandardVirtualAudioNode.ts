@@ -3,16 +3,16 @@ import {
   constructorParamsKeys,
   setters,
   startAndStopNodes,
-} from "../data";
+} from "../data.ts";
 import {
   IAudioNodeFactoryParam,
   IAudioNodePropertyLookup,
   IVirtualAudioNodeParams,
   Output,
   VirtualAudioNode,
-} from "../types";
-import { capitalize, equals, find, values } from "../utils";
-import CustomVirtualAudioNode from "./CustomVirtualAudioNode";
+} from "../types.ts";
+import { capitalize, equals, find, values } from "../utils.ts";
+import CustomVirtualAudioNode from "./CustomVirtualAudioNode.ts";
 
 interface IAudioContextFactoryLookup {
   [_: string]: any;
@@ -21,7 +21,7 @@ interface IAudioContextFactoryLookup {
 const createAudioNode = (
   audioContext: AudioContext,
   name: string,
-  audioNodeFactoryParam: IAudioNodeFactoryParam
+  audioNodeFactoryParam: IAudioNodeFactoryParam,
 ) => {
   const audioNodeFactoryName = `create${capitalize(name)}`;
   if (
@@ -34,8 +34,8 @@ const createAudioNode = (
 
   const audioNode = audioNodeFactoryParam
     ? (audioContext as IAudioContextFactoryLookup)[audioNodeFactoryName](
-        audioNodeFactoryParam
-      )
+      audioNodeFactoryParam,
+    )
     : (audioContext as IAudioContextFactoryLookup)[audioNodeFactoryName]();
 
   return audioNode;
@@ -51,7 +51,7 @@ export default class StandardVirtualAudioNode {
     public readonly node: string,
     public output?: Output,
     public params?: IVirtualAudioNodeParams,
-    public readonly input?: string
+    public readonly input?: string,
   ) {
     const stopTime = params && params.stopTime;
     this.stopCalled = stopTime !== undefined;
@@ -73,10 +73,11 @@ export default class StandardVirtualAudioNode {
     if (node) {
       if (node instanceof CustomVirtualAudioNode) {
         for (const childNode of values(node.virtualNodes)) {
-          if (!this.connections.some((x) => x === childNode.audioNode))
+          if (!this.connections.some((x) => x === childNode.audioNode)) {
             continue;
+          }
           this.connections = this.connections.filter(
-            (x) => x !== childNode.audioNode
+            (x) => x !== childNode.audioNode,
           );
         }
       } else {
@@ -99,20 +100,19 @@ export default class StandardVirtualAudioNode {
 
   public initialize(audioContext: AudioContext): this {
     const params = this.params || {};
-    const constructorParam =
-      params[
-        find(
-          (key) => constructorParamsKeys.indexOf(key) !== -1,
-          Object.keys(params)
-        )
-      ];
+    const constructorParam = params[
+      find(
+        (key) => constructorParamsKeys.indexOf(key) !== -1,
+        Object.keys(params),
+      )
+    ];
     const { offsetTime, startTime, stopTime } = params;
 
     // TODO remove `any` when AudioScheduledSourceNode typings are correct
     const audioNode: any = createAudioNode(
       audioContext,
       this.node,
-      constructorParam
+      constructorParam,
     );
 
     this.audioNode = audioNode;
@@ -122,7 +122,7 @@ export default class StandardVirtualAudioNode {
     if (startAndStopNodes.indexOf(this.node) !== -1) {
       audioNode.start(
         startTime == null ? audioContext.currentTime : startTime,
-        offsetTime || 0
+        offsetTime || 0,
       );
       if (stopTime != null) audioNode.stop(stopTime);
     }
